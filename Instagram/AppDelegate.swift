@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let homeNavigationController = storyboard.instantiateViewControllerWithIdentifier("HomeNavigationController") as! UINavigationController
+        homeNavigationController.tabBarItem.title = "Home Feed"
+        homeNavigationController.tabBarItem.image = UIImage(named: "HomeIcon")
+        
+        let postNavigationController = storyboard.instantiateViewControllerWithIdentifier("PostNavigationController") as! UINavigationController
+        postNavigationController.tabBarItem.title = "Post"
+        postNavigationController.tabBarItem.image = UIImage(named: "PostIcon")
+        
+        let userProfileNavigationController = storyboard.instantiateViewControllerWithIdentifier("UserProfileNavigationController") as! UINavigationController
+        userProfileNavigationController.tabBarItem.title = "Profile"
+        userProfileNavigationController.tabBarItem.image = UIImage(named: "UserProfileIcon")
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [homeNavigationController, postNavigationController, userProfileNavigationController]
+        
+        // Initialize Parse
+        InstagramClient.initializeParse()
+        
+        if PFUser.currentUser() != nil
+        {
+            print("There is a current user")
+            
+            window?.rootViewController = tabBarController
+            window?.makeKeyAndVisible()
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName("Log Out User", object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) -> Void in
+            print("you are logged out")
+            //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            //let vc = storyboard.instantiateInitialViewController()
+            self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName("Log In User", object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) -> Void in
+            print("you are logged in")
+            self.window?.rootViewController?.presentViewController(tabBarController, animated: true, completion: nil)
+            self.window?.makeKeyAndVisible()
+        }
+        
         return true
     }
 
