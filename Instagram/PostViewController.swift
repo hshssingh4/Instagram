@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate
 {
@@ -64,18 +65,14 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
-            // Get the image captured by the UIImagePickerController
-            let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-            let editedImage = resize(originalImage, newSize: originalImage.size)
-            postImageView.image = editedImage
+        let editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+        postImageView.image = editedImage
+        
+        postButton.enabled = true
+        cancelPostButton.enabled = true
             
-            print(originalImage)
-            
-            postButton.enabled = true
-            cancelPostButton.enabled = true
-            
-            // Dismiss UIImagePickerController to go back to your original view controller
-            dismissViewControllerAnimated(true, completion: nil)
+        // Dismiss UIImagePickerController to go back to your original view controller
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func resize(image: UIImage, newSize: CGSize) -> UIImage
@@ -91,6 +88,24 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return newImage
     }
     
+    @IBAction func postImage(sender: AnyObject)
+    {
+        // Post the image to Parse
+        SVProgressHUD.show()
+        Post.postUserImage(resize(postImageView.image!, newSize: postImageView.image!.size), withCaption: captionTextField.text!) { (success: Bool, error: NSError?) -> Void in
+            if success
+            {
+                SVProgressHUD.showSuccessWithStatus("Successfuly Posted!")
+                print("posted an image")
+            }
+            else
+            {
+                SVProgressHUD.showErrorWithStatus("Error Occured!")
+                print(error?.localizedDescription)
+            }
+            SVProgressHUD.dismiss()
+        }
+    }
     /*
     // MARK: - Navigation
 

@@ -111,7 +111,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="FYY-VN-GLB">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="FYY-VN-GLB">
                                 <rect key="frame" x="20" y="72" width="335" height="290"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add a Caption..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gJa-OY-VAa">
@@ -146,7 +146,11 @@
                                 <action selector="onCancelPostButton:" destination="xh8-vx-Xiq" id="A9H-zA-GrJ"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Post" id="x7k-wj-tDf"/>
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="x7k-wj-tDf">
+                            <connections>
+                                <action selector="postImage:" destination="xh8-vx-Xiq" id="Q90-iL-Pc0"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -168,7 +172,6 @@
         <!--Profile-->
         <scene sceneID="XTP-Wr-XqE">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PTz-At-Bjv" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Cw6-h9-WsU" customClass="UserProfileViewController" customModule="Instagram" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="esg-bZ-NVJ"/>
@@ -182,6 +185,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="61i-fY-3KH"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PTz-At-Bjv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1234.5" y="1919.5"/>
         </scene>
@@ -207,7 +211,6 @@
         <!--Navigation Controller-->
         <scene sceneID="qsu-3l-TnR">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KN0-n4-5Oa" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="UserProfileNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="iIz-mr-FjK" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -220,6 +223,7 @@
                         <segue destination="Cw6-h9-WsU" kind="relationship" relationship="rootViewController" id="OPy-qR-Sb0"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KN0-n4-5Oa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="773.5" y="1919.5"/>
         </scene>

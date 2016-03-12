@@ -35,6 +35,11 @@ class LoginViewController: UIViewController
         InstagramClient.signUp(usernameField.text!, password: passwordField.text!)
     }
     
+    @IBAction func prepareForUnwind(segue: UIStoryboardSegue)
+    {
+        
+    }
+    
     /*
     // MARK: - Navigation
 

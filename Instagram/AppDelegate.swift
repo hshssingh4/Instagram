@@ -46,15 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSNotificationCenter.defaultCenter().addObserverForName("Log Out User", object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) -> Void in
             print("you are logged out")
-            //let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            //let vc = storyboard.instantiateInitialViewController()
-            self.window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
+            self.window?.rootViewController = storyboard.instantiateInitialViewController()
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName("Log In User", object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) -> Void in
             print("you are logged in")
-            self.window?.rootViewController?.presentViewController(tabBarController, animated: true, completion: nil)
-            self.window?.makeKeyAndVisible()
+            self.window?.rootViewController = tabBarController
         }
         
         return true
