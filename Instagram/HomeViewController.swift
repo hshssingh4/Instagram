@@ -9,13 +9,22 @@
 import UIKit
 import Parse
 
-class HomeViewController: UIViewController
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
+    @IBOutlet weak var tableView: UITableView!
+    
+    var refreshControl: UIRefreshControl!
+    var posts: [Post]?
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        loadPosts()
+        addRefreshControl()
     }
 
     override func didReceiveMemoryWarning()
@@ -23,10 +32,71 @@ class HomeViewController: UIViewController
         super.didReceiveMemoryWarning()
     }
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        if let posts = posts
+        {
+            return posts.count
+        }
+        else
+        {
+            return 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell", forIndexPath: indexPath) as! PostCell
+        cell.post = posts![indexPath.row]
+        return cell
+    }
+    
     @IBAction func onLogoutButton(sender: AnyObject)
     {
         print("call logout")
         InstagramClient.logout()
+    }
+    
+    func loadPosts()
+    {
+        // construct PFQuery
+        let query = PFQuery(className: "Post")
+        query.orderByDescending("createdAt")
+        query.includeKey("author")
+        query.limit = 20
+        
+        // fetch data asynchronously
+        query.findObjectsInBackgroundWithBlock { (posts: [PFObject]?, error: NSError?) -> Void in
+            if let posts = posts
+            {
+                var newPosts = [Post]()
+                for post in posts
+                {
+                    newPosts.append(Post(post: post))
+                }
+                self.posts = newPosts
+                self.tableView.reloadData()
+            }
+            else
+            {
+                print(error?.localizedDescription)
+            }
+        }
+    }
+    
+    // Refresh control methods
+    func addRefreshControl()
+    {
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.blackColor()
+        refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+    }
+    
+    func onRefresh()
+    {
+        loadPosts()
+        self.refreshControl.endRefreshing()
     }
 
     /*

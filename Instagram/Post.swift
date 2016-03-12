@@ -11,6 +11,34 @@ import Parse
 
 class Post: NSObject
 {
+    var username: String?
+    var mediaUrl: NSURL?
+    var datePosted: NSDate?
+    var timestamp: String?
+    
+    init(post: PFObject)
+    {
+        username = (post.objectForKey("author") as! PFUser).username
+        mediaUrl = NSURL(string: (post.objectForKey("media") as! PFFile).url!)
+        print(post)
+        let datePosted = post.createdAt
+        if let datePosted = datePosted
+        {
+            let duration = (datePosted.timeIntervalSinceNow) * -1 // Get time passed.
+            
+            switch duration
+            {
+                case 0..<60:
+                    timestamp = "\(Int(duration))s"
+                case 60..<3600:
+                    timestamp = "\(Int(duration / 60))m"
+                case 3600..<86400:
+                    timestamp = "\(Int(duration / 3600))h"
+                default:
+                    timestamp = "\(Int(duration / 86400))d"
+            }
+        }
+    }
     
     class func postUserImage(image: UIImage?, withCaption caption: String?, withCompletion completion: PFBooleanResultBlock?)
     {

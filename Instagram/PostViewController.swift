@@ -96,7 +96,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             if success
             {
                 SVProgressHUD.showSuccessWithStatus("Successfuly Posted!")
-                print("posted an image")
             }
             else
             {
