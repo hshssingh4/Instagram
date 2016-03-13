@@ -12,18 +12,16 @@ import Parse
 
 class PostCell: UITableViewCell
 {
-    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var captionLabel: UILabel!
     
     
     var post: Post!
     {
         didSet
         {
-            usernameLabel.text = post.username
             profileImageView.setImageWithURL(post.mediaUrl!)
-            timestampLabel.text = post.timestamp!
+            captionLabel.text = post.caption!
         }
     }
 

@@ -22,6 +22,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "TableViewHeaderView")
         
         loadPosts()
         addRefreshControl()
@@ -32,28 +33,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.didReceiveMemoryWarning()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        if let posts = posts
-        {
-            return posts.count
-        }
-        else
-        {
-            return 0
-        }
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell", forIndexPath: indexPath) as! PostCell
-        cell.post = posts![indexPath.row]
-        return cell
-    }
-    
     @IBAction func onLogoutButton(sender: AnyObject)
     {
-        print("call logout")
+        let alert = UIAlertController(title: "Are you sure you want to log out?", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        // Two Actions Added.
+        alert.addAction(UIAlertAction(title: "Log Out", style: UIAlertActionStyle.Destructive, handler: logoutUser))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        // Present the Alert.
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func logoutUser(alert: UIAlertAction)
+    {
         InstagramClient.logout()
     }
     
@@ -97,6 +90,53 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     {
         loadPosts()
         self.refreshControl.endRefreshing()
+    }
+    
+    // Table View Methods
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell", forIndexPath: indexPath) as! PostCell
+        cell.post = posts![indexPath.section]
+        return cell
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
+        if let posts = posts
+        {
+            return posts.count
+        }
+        else
+        {
+            return 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
+        //let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("TableViewHeaderView")! as UITableViewHeaderFooterView
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
+        
+        let usernameLabel = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width/2, height: 30))
+        usernameLabel.text = posts![section].username!
+        usernameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+        let timestampLabel = UILabel(frame: CGRect(x: tableView.frame.size.width - 100, y: 0, width: 100, height: 30))
+        timestampLabel.text = posts![section].timestamp!
+        
+        view.addSubview(usernameLabel)
+        view.addSubview(timestampLabel)
+        view.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+        return view
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
+    {
+        return 30
     }
 
     /*

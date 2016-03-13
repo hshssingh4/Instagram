@@ -27,19 +27,8 @@ class LoginViewController: UIViewController
     
     @IBAction func onSignIn(sender: AnyObject)
     {
-        InstagramClient.signIn(usernameField.text!, password: passwordField.text!)
+        InstagramClient.signIn(usernameField.text!, password: passwordField.text!, vc: self)
     }
-
-    @IBAction func onSignUp(sender: AnyObject)
-    {
-        InstagramClient.signUp(usernameField.text!, password: passwordField.text!)
-    }
-    
-    @IBAction func prepareForUnwind(segue: UIStoryboardSegue)
-    {
-        
-    }
-    
     /*
     // MARK: - Navigation
 
