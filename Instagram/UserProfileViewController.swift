@@ -17,6 +17,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var usernameLabel: UILabel!
     
     var user: User?
+    var posts: [Post]?
     var senderImageTag: Int?
     
     let profileImageTapGestureRecogonizer = UITapGestureRecognizer()
@@ -36,7 +37,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func initializeView()
     {
-        user = User(user: PFUser.currentUser()!)
         nameLabel.text = "\(user!.firstName!) \(user!.lastName!)"
         usernameLabel.text = user!.currentUser!.username
         
@@ -49,6 +49,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         {
             headerImageView.setImageWithURL(coverImageUrl)
         }
+        
+
         
         profileImageTapGestureRecogonizer.addTarget(self, action: "promptToChoosePicture:")
         headerImageTapGestureRecogonizer.addTarget(self, action: "promptToChoosePicture:")

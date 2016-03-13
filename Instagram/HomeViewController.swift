@@ -23,7 +23,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.dataSource = self
         tableView.delegate = self
         tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "TableViewHeaderView")
-        
+
         loadPosts()
         addRefreshControl()
     }
@@ -119,34 +119,82 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
-        //let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier("TableViewHeaderView")! as UITableViewHeaderFooterView
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
+        let user = User(user: (posts![section].postObject!["author"] as! PFUser))
+        let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier("TableViewHeaderView")! as UITableViewHeaderFooterView
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 50))
+        let userImageView = UIImageView(frame: CGRect(x: 8, y: 0, width: 50, height: 50))
+        if let profileImageUrl = user.profileImageUrl
+        {
+            userImageView.setImageWithURL(profileImageUrl)
+        }
+        userImageView.layer.cornerRadius = 25
+        userImageView.clipsToBounds = true
         
-        let usernameLabel = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width/2, height: 30))
+        let usernameLabel = UILabel(frame: CGRect(x: 70, y: 0, width: tableView.frame.size.width/2, height: 50))
         usernameLabel.text = posts![section].username!
-        usernameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
-        let timestampLabel = UILabel(frame: CGRect(x: tableView.frame.size.width - 100, y: 0, width: 100, height: 30))
+        usernameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+        let timestampLabel = UILabel(frame: CGRect(x: tableView.frame.size.width - 40, y: 0, width: 40, height: 50))
         timestampLabel.text = posts![section].timestamp!
         
+        view.addSubview(userImageView)
         view.addSubview(usernameLabel)
         view.addSubview(timestampLabel)
         view.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-        return view
+        
+        headerView.addSubview(view)
+        return headerView
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
     {
-        return 30
+        return 50
     }
-
-    /*
+    
+    // Deletion methods
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
+        let post  = posts![indexPath.section]
+        if post.username == PFUser.currentUser()?.username
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if (editingStyle == UITableViewCellEditingStyle.Delete)
+        {
+            let post = posts![indexPath.section]
+            
+            InstagramClient.deletePost(post, success: { (post: Post) -> () in
+                self.posts?.removeAtIndex(indexPath.section)
+                self.tableView.reloadData()
+                }) { (error: NSError) -> () in
+                    print("Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if let cell = sender as? UITableViewCell
+        {
+            let indexPath = tableView.indexPathForCell(cell)
+            tableView.deselectRowAtIndexPath(indexPath!, animated: true)
+            let selectedPost = posts![indexPath!.section]
+            let pfUser = selectedPost.postObject!.objectForKey("author") as! PFUser
+            let user = User(user: pfUser)
+            let vc = segue.destinationViewController as! UserProfileViewController
+            vc.user = user
+        }
     }
-    */
+    
 
 }

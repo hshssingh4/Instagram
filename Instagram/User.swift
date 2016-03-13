@@ -15,8 +15,8 @@ class User: NSObject
     var lastName: String?
     var profileImageUrl: NSURL?
     var coverImageUrl: NSURL?
-    var posts: [PFObject]?
     var currentUser: PFUser?
+    var posts: [Post]?
     
     init(user: PFUser)
     {
@@ -39,13 +39,20 @@ class User: NSObject
     {
         let query = PFQuery(className: "Post")
         query.orderByDescending("createdAt")
-        query.whereKey("author", equalTo: user)
+        query.includeKey("author")
+        query.whereKey("author", equalTo: currentUser!)
+        query.limit = 20
         
         // fetch data asynchronously
         query.findObjectsInBackgroundWithBlock { (posts: [PFObject]?, error: NSError?) -> Void in
             if let posts = posts
             {
-                self.posts = posts
+                var newPosts = [Post]()
+                for post in posts
+                {
+                    newPosts.append(Post(post: post))
+                }
+                self.posts = newPosts
             }
             else
             {

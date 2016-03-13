@@ -95,4 +95,18 @@ class InstagramClient: NSObject
         user["coverImage"] = Post.getPFFileFromImage(image)
         user.saveInBackground()
     }
+    
+    class func deletePost(post: Post, success: (Post) -> (), failure: (NSError) -> ())
+    {        
+        post.postObject?.deleteInBackgroundWithBlock({ (succeded: Bool, error: NSError?) -> Void in
+            if succeded
+            {
+                success(post)
+            }
+            else
+            {
+                failure(error!)
+            }
+         })
+    }
 }

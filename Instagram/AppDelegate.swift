@@ -33,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             postNavigationController.tabBarItem.image = UIImage(named: "PostIcon")
             
             let userProfileNavigationController = storyboard.instantiateViewControllerWithIdentifier("UserProfileNavigationController") as! UINavigationController
+            let userProfileViewController = userProfileNavigationController.topViewController as! UserProfileViewController
+            userProfileViewController.user = User(user: PFUser.currentUser()!)
             userProfileNavigationController.tabBarItem.title = "Profile"
             userProfileNavigationController.tabBarItem.image = UIImage(named: "UserProfileIcon")
             let tabBarController = UITabBarController()
@@ -58,6 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             postNavigationController.tabBarItem.image = UIImage(named: "PostIcon")
             
             let userProfileNavigationController = storyboard.instantiateViewControllerWithIdentifier("UserProfileNavigationController") as! UINavigationController
+            let userProfileViewController = userProfileNavigationController.topViewController as! UserProfileViewController
+            userProfileViewController.user = User(user: PFUser.currentUser()!)
             userProfileNavigationController.tabBarItem.title = "Profile"
             userProfileNavigationController.tabBarItem.image = UIImage(named: "UserProfileIcon")
             let tabBarController = UITabBarController()

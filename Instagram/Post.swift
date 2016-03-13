@@ -16,17 +16,33 @@ class Post: NSObject
     var datePosted: NSDate?
     var timestamp: String?
     var caption: String?
+    var postObject: PFObject?
     
     init(post: PFObject)
     {
-        super.init()
+        postObject = post
         username = (post.objectForKey("author") as! PFUser).username
-        mediaUrl = NSURL(string: (post.objectForKey("media") as! PFFile).url!)
+        if let mediaFile = post.objectForKey("media") as? PFFile
+        {
+            mediaUrl = NSURL(string: mediaFile.url!)
+        }
         caption = (post.objectForKey("caption")) as? String
         let datePosted = post.createdAt
         if let datePosted = datePosted
         {
-            timestamp = getTimestamp(datePosted)
+            let duration = (datePosted.timeIntervalSinceNow) * -1 // Get time passed.
+            
+            switch duration
+            {
+                case 0..<60:
+                    timestamp = "\(Int(duration))s"
+                case 60..<3600:
+                    timestamp = "\(Int(duration / 60))m"
+                case 3600..<86400:
+                    timestamp = "\(Int(duration / 3600))h"
+                default:
+                    timestamp = "\(Int(duration / 86400))d"
+            }
         }
     }
     
@@ -58,23 +74,5 @@ class Post: NSObject
             }
         }
         return nil
-    }
-    
-    func getTimestamp(datePosted: NSDate) -> String
-    {
-        let duration = (datePosted.timeIntervalSinceNow) * -1 // Get time passed.
-        
-        switch duration
-        {
-            case 0..<60:
-                timestamp = "\(Int(duration))s"
-            case 60..<3600:
-                timestamp = "\(Int(duration / 60))m"
-            case 3600..<86400:
-                timestamp = "\(Int(duration / 3600))h"
-            default:
-                timestamp = "\(Int(duration / 86400))d"
-        }
-        return timestamp!
     }
 }
