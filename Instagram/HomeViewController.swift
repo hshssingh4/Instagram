@@ -33,23 +33,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func onLogoutButton(sender: AnyObject)
-    {
-        let alert = UIAlertController(title: "Are you sure you want to log out?", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-        
-        // Two Actions Added.
-        alert.addAction(UIAlertAction(title: "Log Out", style: UIAlertActionStyle.Destructive, handler: logoutUser))
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
-        
-        // Present the Alert.
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    func logoutUser(alert: UIAlertAction)
-    {
-        InstagramClient.logout()
-    }
-    
     func loadPosts()
     {
         // construct PFQuery
@@ -195,6 +178,4 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             vc.user = user
         }
     }
-    
-
 }

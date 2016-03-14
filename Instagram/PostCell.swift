@@ -21,6 +21,7 @@ class PostCell: UITableViewCell
         didSet
         {
             profileImageView.setImageWithURL(post.mediaUrl!)
+            profileImageView.clipsToBounds = true
             captionLabel.text = post.caption!
         }
     }

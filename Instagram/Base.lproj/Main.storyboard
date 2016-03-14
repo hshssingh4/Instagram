@@ -160,7 +160,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="312"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W5q-qF-ix7">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W5q-qF-ix7">
                                                     <rect key="frame" x="8" y="8" width="359" height="259"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="W5q-qF-ix7" secondAttribute="height" multiplier="360:259" id="B8k-Mq-Pst"/>
@@ -173,16 +173,17 @@
                                                     </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="joK-8w-EhV">
-                                                    <rect key="frame" x="8" y="275" width="60" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="8" y="275" width="60" height="20"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.95328426058956228" green="0.96668722315384614" blue="0.95663500123063328" alpha="0.22723599137931033" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="W5q-qF-ix7" firstAttribute="leading" secondItem="K5o-RF-ix2" secondAttribute="leading" constant="8" id="9Ub-6V-02D"/>
                                                 <constraint firstItem="joK-8w-EhV" firstAttribute="leading" secondItem="K5o-RF-ix2" secondAttribute="leading" constant="8" id="Qhn-fp-wkt"/>
-                                                <constraint firstAttribute="bottom" secondItem="joK-8w-EhV" secondAttribute="bottom" constant="16" id="Ryp-UL-tcw"/>
+                                                <constraint firstAttribute="bottom" secondItem="joK-8w-EhV" secondAttribute="bottom" constant="17" id="Ryp-UL-tcw"/>
                                                 <constraint firstItem="joK-8w-EhV" firstAttribute="top" secondItem="W5q-qF-ix7" secondAttribute="bottom" constant="8" id="WgC-8w-jLZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="W5q-qF-ix7" secondAttribute="trailing" constant="8" id="kbo-of-kmc"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="joK-8w-EhV" secondAttribute="trailing" constant="10" id="ncq-vY-wz2"/>
@@ -205,13 +206,7 @@
                             <constraint firstItem="L14-hi-x46" firstAttribute="leading" secondItem="4LR-gG-uEk" secondAttribute="leading" id="X4Z-GK-Yll"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Instagram" id="7lM-IC-zyP">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="nPs-fj-pxt">
-                            <connections>
-                                <action selector="onLogoutButton:" destination="HqZ-n3-1Ws" id="yWi-jn-IxR"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Instagram" id="7lM-IC-zyP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="L14-hi-x46" id="iuw-b6-A1l"/>
@@ -260,28 +255,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6a-CD-IG6">
-                                <rect key="frame" x="195" y="412" width="160" height="160"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="QaI-U8-vMX"/>
-                                    <constraint firstAttribute="width" constant="160" id="stH-FK-B2j"/>
-                                </constraints>
-                                <state key="normal" image="CaptureImage"/>
-                                <connections>
-                                    <action selector="onCaptureButton:" destination="xh8-vx-Xiq" eventType="touchUpInside" id="2eA-Gs-Lmy"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jB-sl-VhG">
-                                <rect key="frame" x="20" y="412" width="160" height="160"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="160" id="7tJ-1n-CEf"/>
-                                    <constraint firstAttribute="height" constant="160" id="hOt-5c-K2S"/>
-                                </constraints>
-                                <state key="normal" image="GalleryImage"/>
-                                <connections>
-                                    <action selector="onBrowseButton:" destination="xh8-vx-Xiq" eventType="touchUpInside" id="kkR-Ud-VAl"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="FYY-VN-GLB">
                                 <rect key="frame" x="20" y="72" width="335" height="290"/>
                                 <constraints>
@@ -295,17 +268,13 @@
                         <constraints>
                             <constraint firstItem="gJa-OY-VAa" firstAttribute="leading" secondItem="gY3-Rr-3xC" secondAttribute="leading" constant="20" id="8fW-4h-5mN"/>
                             <constraint firstAttribute="trailing" secondItem="gJa-OY-VAa" secondAttribute="trailing" constant="20" id="8ud-s6-Yt7"/>
-                            <constraint firstItem="8jB-sl-VhG" firstAttribute="leading" secondItem="gY3-Rr-3xC" secondAttribute="leading" constant="20" id="AKu-zG-u4D"/>
-                            <constraint firstItem="K6a-CD-IG6" firstAttribute="leading" secondItem="8jB-sl-VhG" secondAttribute="trailing" constant="15" id="GM2-uI-aCn"/>
-                            <constraint firstItem="8jB-sl-VhG" firstAttribute="top" secondItem="gJa-OY-VAa" secondAttribute="bottom" constant="8" id="L3B-jO-6Ts"/>
                             <constraint firstItem="FYY-VN-GLB" firstAttribute="top" secondItem="Vng-Y9-NTW" secondAttribute="bottom" constant="8" id="SCa-s4-u9I"/>
-                            <constraint firstItem="K6a-CD-IG6" firstAttribute="leading" secondItem="8jB-sl-VhG" secondAttribute="trailing" constant="15" id="b5P-GJ-c8F"/>
-                            <constraint firstItem="K6a-CD-IG6" firstAttribute="top" secondItem="gJa-OY-VAa" secondAttribute="bottom" constant="8" id="kDo-FA-vdI"/>
                             <constraint firstItem="FYY-VN-GLB" firstAttribute="centerX" secondItem="gY3-Rr-3xC" secondAttribute="centerX" id="t9K-we-Pyg"/>
                             <constraint firstItem="gJa-OY-VAa" firstAttribute="top" secondItem="FYY-VN-GLB" secondAttribute="bottom" constant="8" id="vwo-f8-4Xp"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="ylk-Za-05D" appends="YES" id="Bkr-JM-ucb"/>
+                            <outletCollection property="gestureRecognizers" destination="Z2V-6m-0L8" appends="YES" id="ruw-xC-tYL"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Image" id="Sia-uc-piv">
@@ -334,6 +303,11 @@
                         <action selector="onTapGesture:" destination="xh8-vx-Xiq" id="bQO-m4-hIz"/>
                     </connections>
                 </tapGestureRecognizer>
+                <swipeGestureRecognizer direction="down" id="Z2V-6m-0L8">
+                    <connections>
+                        <action selector="onSwipeGesture:" destination="xh8-vx-Xiq" id="SxH-hQ-uv6"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1312.5" y="1989.5"/>
         </scene>
@@ -349,7 +323,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CoverPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-FT-NNs">
+                            <imageView tag="10" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CoverPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="bLu-FT-NNs">
                                 <rect key="frame" x="0.0" y="64" width="375" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="FIs-Ac-kxC"/>
@@ -374,25 +348,65 @@
                                     <constraint firstAttribute="height" constant="100" id="Pk6-qL-Fsn"/>
                                 </constraints>
                             </imageView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="F4f-db-kp4">
+                                <rect key="frame" x="0.0" y="351" width="375" height="316"/>
+                                <color key="backgroundColor" red="0.95328426060000004" green="0.9666872232" blue="0.9566350012" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="YKX-DD-QYr">
+                                    <size key="itemSize" width="125" height="125"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PostCollectionViewCell" id="rB1-aG-7Nh" customClass="PostCollectionViewCell" customModule="Instagram" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i1r-CO-H1S">
+                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <outlet property="postImageView" destination="i1r-CO-H1S" id="aH9-RA-d6R"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="5YI-NA-C8E" firstAttribute="top" secondItem="F4f-db-kp4" secondAttribute="bottom" id="1FA-1Y-fXm"/>
+                            <constraint firstItem="F4f-db-kp4" firstAttribute="leading" secondItem="lOG-hy-NXw" secondAttribute="leading" id="AcY-EW-SSw"/>
                             <constraint firstItem="Xz2-87-nXD" firstAttribute="top" secondItem="gYQ-ud-mOU" secondAttribute="bottom" constant="8" id="DKJ-an-NfM"/>
                             <constraint firstItem="fNg-iH-57Y" firstAttribute="top" secondItem="esg-bZ-NVJ" secondAttribute="bottom" constant="167" id="JZK-eb-XU8"/>
                             <constraint firstAttribute="trailing" secondItem="bLu-FT-NNs" secondAttribute="trailing" id="PQX-Sx-JGK"/>
                             <constraint firstItem="bLu-FT-NNs" firstAttribute="top" secondItem="esg-bZ-NVJ" secondAttribute="bottom" id="Pwz-hm-bQt"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gYQ-ud-mOU" secondAttribute="trailing" constant="10" id="WMv-FQ-sH4"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Xz2-87-nXD" secondAttribute="trailing" constant="10" id="XkG-59-eI2"/>
+                            <constraint firstAttribute="trailing" secondItem="F4f-db-kp4" secondAttribute="trailing" id="aPr-oF-u0P"/>
                             <constraint firstItem="fNg-iH-57Y" firstAttribute="leading" secondItem="lOG-hy-NXw" secondAttribute="leading" constant="20" id="bQE-Uf-ClJ"/>
                             <constraint firstItem="Xz2-87-nXD" firstAttribute="leading" secondItem="fNg-iH-57Y" secondAttribute="trailing" constant="8" id="db7-mx-9DB"/>
                             <constraint firstItem="gYQ-ud-mOU" firstAttribute="top" secondItem="bLu-FT-NNs" secondAttribute="bottom" constant="8" id="e6P-9l-olu"/>
+                            <constraint firstItem="F4f-db-kp4" firstAttribute="top" secondItem="fNg-iH-57Y" secondAttribute="bottom" constant="20" id="iWs-Fb-be9"/>
                             <constraint firstItem="bLu-FT-NNs" firstAttribute="leading" secondItem="lOG-hy-NXw" secondAttribute="leading" id="sY6-9i-6s8"/>
                             <constraint firstItem="gYQ-ud-mOU" firstAttribute="leading" secondItem="fNg-iH-57Y" secondAttribute="trailing" constant="8" id="z1N-BD-Xdq"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" id="61i-fY-3KH"/>
+                    <navigationItem key="navigationItem" title="Profile" id="61i-fY-3KH">
+                        <barButtonItem key="rightBarButtonItem" image="SettingsIcon" id="WNe-3q-yBt">
+                            <connections>
+                                <action selector="onLogoutButton:" destination="Cw6-h9-WsU" id="NjC-nK-S0U"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="collectionView" destination="F4f-db-kp4" id="HRr-Hn-Z0g"/>
                         <outlet property="headerImageView" destination="bLu-FT-NNs" id="h2g-ha-cKJ"/>
                         <outlet property="nameLabel" destination="gYQ-ud-mOU" id="Rrr-Bq-hqX"/>
                         <outlet property="profileImageView" destination="fNg-iH-57Y" id="G3y-xp-VZ3"/>
@@ -566,12 +580,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CaptureImage" width="160" height="160"/>
         <image name="CoverPlaceholder" width="375" height="200"/>
-        <image name="GalleryImage" width="160" height="160"/>
         <image name="InstagramIcon" width="80" height="80"/>
         <image name="Placeholder" width="335" height="300"/>
         <image name="ProfilePicPlaceholder" width="120" height="120"/>
+        <image name="SettingsIcon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="bfh-M7-7mk"/>

@@ -15,13 +15,51 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var captionTextField: UITextField!
     @IBOutlet weak var postButton: UIBarButtonItem!
     @IBOutlet weak var cancelPostButton: UIBarButtonItem!
-
+    let postImageTapGestureRecogonizer = UITapGestureRecognizer()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         postButton.enabled = false
         cancelPostButton.enabled = false
+        postImageTapGestureRecogonizer.addTarget(self, action: "promptToChoosePicture:")
+        postImageView.addGestureRecognizer(postImageTapGestureRecogonizer)
+        postImageView.userInteractionEnabled = true
     }
+    
+    func promptToChoosePicture(sender: UITapGestureRecognizer)
+    {        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        // Two Actions Added.
+        alert.addAction(UIAlertAction(title: "Choose Profile Picture", style: UIAlertActionStyle.Default, handler: choosePicture))
+        alert.addAction(UIAlertAction(title: "Take Profile Picture", style: UIAlertActionStyle.Default, handler: takePicture))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        // Present the Alert.
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func choosePicture(alert: UIAlertAction)
+    {
+        let vc = UIImagePickerController()
+        vc.delegate = self
+        vc.allowsEditing = true
+        vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    func takePicture(alert: UIAlertAction)
+    {
+        let vc = UIImagePickerController()
+        vc.delegate = self
+        vc.allowsEditing = true
+        vc.sourceType = UIImagePickerControllerSourceType.Camera
+        
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+
 
     override func didReceiveMemoryWarning()
     {
@@ -32,16 +70,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     {
         captionTextField.resignFirstResponder()
     }
-    
-    @IBAction func onBrowseButton(sender: AnyObject)
-    {
-        let vc = UIImagePickerController()
-        vc.delegate = self
-        vc.allowsEditing = true
-        vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        
-        self.presentViewController(vc, animated: true, completion: nil)
-    }
 
     @IBAction func onCancelPostButton(sender: AnyObject)
     {
@@ -49,18 +77,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         captionTextField.text = nil
         cancelPostButton.enabled = false
         postButton.enabled = false
+        captionTextField.resignFirstResponder()
     }
-    
-    @IBAction func onCaptureButton(sender: AnyObject)
-    {
-        let vc = UIImagePickerController()
-        vc.delegate = self
-        vc.allowsEditing = true
-        vc.sourceType = UIImagePickerControllerSourceType.Camera
-        
-        self.presentViewController(vc, animated: true, completion: nil)
-    }
-    
     
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [String : AnyObject])
@@ -96,6 +114,16 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             if success
             {
                 SVProgressHUD.showSuccessWithStatus("Successfuly Posted!")
+                self.postImageView.image = UIImage(named: "Placeholder")
+                self.captionTextField.text = nil
+                self.cancelPostButton.enabled = false
+                self.postButton.enabled = false
+                self.captionTextField.resignFirstResponder()
+                let nc = self.tabBarController?.viewControllers![0] as! UINavigationController
+                let vc = nc.topViewController as! HomeViewController
+                vc.loadPosts()
+                vc.tableView.reloadData()
+                self.tabBarController?.selectedIndex = 0
             }
             else
             {
@@ -105,6 +133,14 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             SVProgressHUD.dismiss()
         }
     }
+    
+    @IBAction func onSwipeGesture(sender: AnyObject)
+    {
+        captionTextField.resignFirstResponder()
+    }
+    
+    
+    
     /*
     // MARK: - Navigation
 

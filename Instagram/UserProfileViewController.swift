@@ -8,13 +8,15 @@
 
 import UIKit
 import Parse
+import EXPhotoViewer
 
-class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate
+class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate
 {
     @IBOutlet weak var headerImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     var user: User?
     var posts: [Post]?
@@ -27,12 +29,43 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     {
         super.viewDidLoad()
         initializeView()
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        initializePosts()
+        collectionView.reloadData()
         modifyView()
     }
 
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
+    }
+    
+    func initializePosts()
+    {
+        let query = PFQuery(className: "Post")
+        query.orderByDescending("createdAt")
+        query.includeKey("author")
+        query.whereKey("author", equalTo: user!.currentUser!)
+        query.limit = 20
+        
+        // fetch data asynchronously
+        query.findObjectsInBackgroundWithBlock { (posts: [PFObject]?, error: NSError?) -> Void in
+            if let posts = posts
+            {
+                var newPosts = [Post]()
+                for post in posts
+                {
+                    newPosts.append(Post(post: post))
+                }
+                self.posts = newPosts
+                self.collectionView.reloadData()
+            }
+            else
+            {
+                print(error?.localizedDescription)
+            }
+        }
     }
     
     func initializeView()
@@ -50,8 +83,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             headerImageView.setImageWithURL(coverImageUrl)
         }
         
-
-        
         profileImageTapGestureRecogonizer.addTarget(self, action: "promptToChoosePicture:")
         headerImageTapGestureRecogonizer.addTarget(self, action: "promptToChoosePicture:")
         profileImageView.addGestureRecognizer(profileImageTapGestureRecogonizer)
@@ -67,6 +98,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Two Actions Added.
         alert.addAction(UIAlertAction(title: "Choose Profile Picture", style: UIAlertActionStyle.Default, handler: choosePicture))
         alert.addAction(UIAlertAction(title: "Take Profile Picture", style: UIAlertActionStyle.Default, handler: takePicture))
+        alert.addAction(UIAlertAction(title: "View This Photo", style: UIAlertActionStyle.Default, handler: showPicture))
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
         
         // Present the Alert.
@@ -91,6 +123,18 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         vc.sourceType = UIImagePickerControllerSourceType.Camera
         
         self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    func showPicture(alert: UIAlertAction)
+    {
+        if senderImageTag == 10
+        {
+            EXPhotoViewer.showImageFrom(headerImageView)
+        }
+        else
+        {
+            EXPhotoViewer.showImageFrom(profileImageView)
+        }
     }
     
     
@@ -128,15 +172,59 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     
+    // Collection View Methods
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        if let posts = posts
+        {
+            return posts.count
+        }
+        else
+        {
+            return 0
+        }
+    }
     
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
+    {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PostCollectionViewCell", forIndexPath: indexPath) as! PostCollectionViewCell
+        cell.post = posts![indexPath.row]
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
+    {
+        let collectionViewCell = collectionView.cellForItemAtIndexPath(indexPath) as! PostCollectionViewCell
+        EXPhotoViewer.showImageFrom(collectionViewCell.postImageView)
+    }
+    
+    //Modify View
     
     func modifyView()
     {
         profileImageView.layer.cornerRadius = 10.0
         profileImageView.clipsToBounds = true
+        headerImageView.clipsToBounds = true
     }
     
+    // Logout Methods
     
+    @IBAction func onLogoutButton(sender: AnyObject)
+    {
+        let alert = UIAlertController(title: "Are you sure you want to log out?", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        // Two Actions Added.
+        alert.addAction(UIAlertAction(title: "Log Out", style: UIAlertActionStyle.Destructive, handler: logoutUser))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        // Present the Alert.
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func logoutUser(alert: UIAlertAction)
+    {
+        InstagramClient.logout()
+    }
     
 
     /*
