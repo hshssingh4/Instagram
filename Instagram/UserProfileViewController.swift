@@ -33,6 +33,16 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         collectionView.dataSource = self
         initializePosts()
         collectionView.reloadData()
+        if user?.currentUser != PFUser.currentUser()
+        {
+            navigationItem.rightBarButtonItem?.enabled = false
+            navigationItem.rightBarButtonItem?.tintColor = UIColor.clearColor()
+        }
+        else
+        {
+            navigationItem.rightBarButtonItem?.enabled = true
+            navigationItem.rightBarButtonItem?.tintColor = self.view.tintColor
+        }
         modifyView()
     }
 
@@ -96,8 +106,17 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         // Two Actions Added.
-        alert.addAction(UIAlertAction(title: "Choose Profile Picture", style: UIAlertActionStyle.Default, handler: choosePicture))
-        alert.addAction(UIAlertAction(title: "Take Profile Picture", style: UIAlertActionStyle.Default, handler: takePicture))
+        if senderImageTag == 10
+        {
+            alert.addAction(UIAlertAction(title: "Choose Cover Photo", style: UIAlertActionStyle.Default, handler: choosePicture))
+            alert.addAction(UIAlertAction(title: "Take Cover Photo", style: UIAlertActionStyle.Default, handler: takePicture))
+        }
+        else
+        {
+            alert.addAction(UIAlertAction(title: "Choose Profile Picture", style: UIAlertActionStyle.Default, handler: choosePicture))
+            alert.addAction(UIAlertAction(title: "Take Profile Picture", style: UIAlertActionStyle.Default, handler: takePicture))
+        }
+        
         alert.addAction(UIAlertAction(title: "View This Photo", style: UIAlertActionStyle.Default, handler: showPicture))
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
         

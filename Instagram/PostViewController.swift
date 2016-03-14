@@ -32,8 +32,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         // Two Actions Added.
-        alert.addAction(UIAlertAction(title: "Choose Profile Picture", style: UIAlertActionStyle.Default, handler: choosePicture))
-        alert.addAction(UIAlertAction(title: "Take Profile Picture", style: UIAlertActionStyle.Default, handler: takePicture))
+        alert.addAction(UIAlertAction(title: "Choose From Images", style: UIAlertActionStyle.Default, handler: choosePicture))
+        alert.addAction(UIAlertAction(title: "Take A Picture", style: UIAlertActionStyle.Default, handler: takePicture))
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
         
         // Present the Alert.
